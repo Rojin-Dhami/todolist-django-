@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Django To-Do</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h2>
+            My Tasks 
+            <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+        </h2>
+
+        <form method="POST">
+            {% csrf_token %}
+            <input type="text" name="title" placeholder="What needs to be done?" required>
+            <button type="submit">Add</button>
+        </form>
+
+        <ul>
+            {% for task in tasks %}
+            <li>
+                <span>{{ task.title }}</span>
+                <a href="{% url 'delete_task' task.id %}" class="delete-link">🗑️</a>
+            </li>
+            {% empty %}
+            <p style="color: #888;">No tasks yet. Relax!</p>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
